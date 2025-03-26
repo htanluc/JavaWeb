@@ -3,11 +3,14 @@ package com.mytech.shopmgmt;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import org.apache.catalina.connector.Response;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -49,7 +52,12 @@ public class LoginServlet extends HttpServlet {
             // Nếu đăng nhập thành công, chuyển hướng đến trang home.jsp
             response.sendRedirect("dashboard.jsp");
             //
-            
+            Cookie ckUsername = new Cookie("username",username);
+            Cookie ckLoginDate = new Cookie("Logindate",username);
+            // Thêm cookie vào response
+            response.addCookie(ckUsername);
+            response.addCookie(ckLoginDate);
+            response.sendRedirect("dashboard.jsp");
             
             
         } else {
