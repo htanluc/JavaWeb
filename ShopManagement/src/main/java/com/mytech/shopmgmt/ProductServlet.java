@@ -35,7 +35,7 @@ public class ProductServlet extends HttpServlet {
         // Lấy danh sách sản phẩm từ DAO
         List<Product> listProduct = productDao.getAllProducts();
      
-        request.setAttribute("listProduct", listProduct);
+        request.setAttribute("products", listProduct);
         // Chuyển tiếp đến trang hiển thị sản phẩm (ví dụ: "products.jsp" hoặc "products" tùy cấu hình ServletHelper)
         //cách 1 : jsp Scriplet de hien thi lisproduct
         
