@@ -1,6 +1,9 @@
 package com.mytech.shopmgmt;
 
-import com.mytech.shopmgmt.dao.ProductDao;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import com.mytech.shopmgmt.dao.ProductDAO;
 import com.mytech.shopmgmt.helpers.ServletHelper;
 import com.mytech.shopmgmt.models.Product;
 import jakarta.servlet.ServletException;
@@ -11,10 +14,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
-
 @WebServlet("/addProduct")
 @MultipartConfig(
     fileSizeThreshold = 1024 * 1024 * 2,  // 2MB
@@ -23,19 +22,19 @@ import java.nio.file.Paths;
 )
 public class AddProductServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private ProductDao productDao;
+    private ProductDAO productDao;
     
     @Override
     public void init() throws ServletException {
         super.init();
-        productDao = new ProductDao();
+        productDao = new ProductDAO();
     }
     
     // Hiển thị form thêm sản phẩm
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	 ServletHelper.forward(request, response, "addProduct");
+        ServletHelper.forward(request, response, "addProduct");
     }
     
     // Xử lý submit form thêm sản phẩm
@@ -63,6 +62,7 @@ public class AddProductServlet extends HttpServlet {
         
         // Lưu file vào thư mục "uploads"
         String filePath = uploadPath + File.separator + fileName;
+//        System.out.println("filePath:" + uploadPath);
         filePart.write(filePath);
         
         // Lưu đường dẫn tương đối để lưu vào DB (để hiển thị hình ảnh)
@@ -72,8 +72,8 @@ public class AddProductServlet extends HttpServlet {
         Product product = new Product(code, name, price, imagePath);
         
         // Thêm sản phẩm vào DB thông qua DAO
-        boolean success = productDao.insertProduct(product);
-        if(success) {
+        boolean success = productDao.addProduct(product);
+        if (success) {
             response.sendRedirect("products");
         } else {
             response.getWriter().println("Lỗi khi thêm sản phẩm");

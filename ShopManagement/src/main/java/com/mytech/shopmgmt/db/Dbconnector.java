@@ -4,11 +4,20 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.PersistenceUnit;
+
 public class Dbconnector {
-    static String jdbcURL = "jdbc:mysql://localhost:3306/t3shop?useSSL=false";
+    static String jdbcURL = "jdbc:mysql://localhost:3306/t3shopjpa?useSSL=false";
     static String jdbcUsername = "root";
     static String jdbcPassword = "123456";
-
+    @PersistenceUnit
+    private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ShopManager");
+    public static EntityManager getEntityManager () {
+    	return entityManagerFactory.createEntityManager();
+    }
     public static Connection getConnection() {
         Connection connection = null;
         try {
@@ -23,4 +32,5 @@ public class Dbconnector {
         }
         return connection;
     }
+    
 }

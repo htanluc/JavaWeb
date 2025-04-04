@@ -1,6 +1,6 @@
 package com.mytech.shopmgmt;
 
-import com.mytech.shopmgmt.dao.ProductDao;
+import com.mytech.shopmgmt.dao.ProductJDBCDao;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,11 +11,11 @@ import java.io.IOException;
 @WebServlet("/deleteProduct")
 public class DeleteProductServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private ProductDao productDao;
+    private ProductJDBCDao productDao;
     
     @Override
     public void init() throws ServletException {
-        productDao = new ProductDao();
+        productDao = new ProductJDBCDao();
     }
     
     @Override
