@@ -1,21 +1,23 @@
 package com.mytech.shopmgmt.dao;
 
-import com.mytech.shopmgmt.db.Dbconnector;
-import com.mytech.shopmgmt.models.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.mytech.shopmgmt.db.DbConnector;
+
+import com.mytech.shopmgmt.models.Product;
 
 public class ProductJDBCDao {
 
     // Phương thức thêm sản phẩm (có thể đã có sẵn)
     public boolean insertProduct(Product product) {
         String sql = "INSERT INTO product (code, name, price, imagePath) VALUES (?, ?, ?, ?)";
-        try (Connection connection = Dbconnector.getConnection();
+        try (Connection connection = DbConnector.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, product.getCode());
             statement.setString(2, product.getName());
@@ -33,7 +35,7 @@ public class ProductJDBCDao {
     public List<Product> getAllProducts() {
         List<Product> productList = new ArrayList<>();
         String sql = "SELECT * FROM product";
-        try (Connection connection = Dbconnector.getConnection();
+        try (Connection connection = DbConnector.getConnection();
              Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery(sql)) {
             while (rs.next()) {
@@ -59,7 +61,7 @@ public class ProductJDBCDao {
     public Product getProductByCode(String code) {
         Product product = null;
         String sql = "SELECT * FROM product WHERE code = ?";
-        try (Connection connection = Dbconnector.getConnection();
+        try (Connection connection = DbConnector.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, code);
             ResultSet rs = statement.executeQuery();
@@ -77,7 +79,7 @@ public class ProductJDBCDao {
     }
     public boolean deleteProduct(String code) {
         String sql = "DELETE FROM product WHERE code = ?";
-        try (Connection connection = Dbconnector.getConnection();
+        try (Connection connection = DbConnector.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, code);
             int rowsDeleted = statement.executeUpdate();
@@ -92,7 +94,7 @@ public class ProductJDBCDao {
     // Phương thức cập nhật sản phẩm (updateProduct)
     public boolean updateProduct(Product product) {
         String sql = "UPDATE product SET name = ?, price = ?, imagePath = ? WHERE code = ?";
-        try (Connection connection = Dbconnector.getConnection();
+        try (Connection connection = DbConnector.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, product.getName());
             statement.setDouble(2, product.getPrice());

@@ -3,9 +3,11 @@ package com.mytech.shopmgmt;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import com.mytech.shopmgmt.dao.ProductDAO;
+
+
 import com.mytech.shopmgmt.helpers.ServletHelper;
 import com.mytech.shopmgmt.models.Product;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,12 +24,12 @@ import jakarta.servlet.http.Part;
 )
 public class AddProductServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private ProductDAO productDao;
+    private Product productDao;
     
     @Override
     public void init() throws ServletException {
         super.init();
-        productDao = new ProductDAO();
+        productDao = new Product();
     }
     
     // Hiển thị form thêm sản phẩm
@@ -72,11 +74,6 @@ public class AddProductServlet extends HttpServlet {
         Product product = new Product(code, name, price, imagePath);
         
         // Thêm sản phẩm vào DB thông qua DAO
-        boolean success = productDao.addProduct(product);
-        if (success) {
-            response.sendRedirect("products");
-        } else {
-            response.getWriter().println("Lỗi khi thêm sản phẩm");
-        }
+       
     }
 }

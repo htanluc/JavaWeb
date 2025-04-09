@@ -1,95 +1,72 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Danh sách Sản phẩm</title>
-<!-- Link CSS Bootstrap -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<style>
-body {
-	background-color: #f0f4f8;
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	min-height: 100vh;
-}
-
-.container {
-	margin-top: 30px;
-}
-
-.table img {
-	max-width: 80px;
-	height: auto;
-}
-
-.header-bar {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 20px;
-}
-
-.search-box {
-	display: flex;
-	gap: 5px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
-	<div class="container">
-		<div class="header-bar">
-			<h2>Danh sách Sản phẩm</h2>
-			<a href="addProduct" class="btn btn-success">Thêm sản phẩm</a>
-		</div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.jsp">MyShop</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.jsp">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="products.jsp">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cart.jsp">Cart</a></li>
+                    <li class="nav-item"><a class="nav-link" href="profile.jsp">Profile</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        <h2 class="text-center">Our Products</h2>
+        
+        <div class="d-flex justify-content-between mb-3">
+            <input type="text" id="searchBox" class="form-control w-50" placeholder="Search products...">
+            <a href="addProduct.jsp" class="btn btn-primary">Add Product</a>
+        </div>
 
-		<table class="table table-bordered table-striped">
-			<thead class="table-dark">
-				<tr>
-					<th>Mã SP</th>
-					<th>Tên SP</th>
-					<th>Giá</th>
-					<th>Hình ảnh</th>
-					<th>Hành động</th>
-				</tr>
-			</thead>
-			<tbody>
-				<%
-				java.util.List<com.mytech.shopmgmt.models.Product> products = (java.util.List<com.mytech.shopmgmt.models.Product>) request
-						.getAttribute("products");
-				if (products == null || products.isEmpty()) {
-				%>
-				<tr>
-					<td colspan="5" class="text-center">Không có sản phẩm nào để
-						hiển thị.</td>
-				</tr>
-				<%
-				} else {
-				for (com.mytech.shopmgmt.models.Product p : products) {
-				%>
-				<tr>
-					<td><%=p.getCode()%></td>
-					<td><%=p.getName()%></td>
-					<td><%=p.getPrice()%></td>
-					<td><img src="<%=p.getImagePath()%>"
-						alt="<%=p.getName()%>"></td>
-					<td><a href="editProduct?id=<%=p.getCode()%>"
-						class="btn btn-primary btn-sm">Edit</a> <a
-						href="deleteProduct?id=<%=p.getCode()%>"
-						class="btn btn-danger btn-sm"
-						onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">
-							Delete </a></td>
-				</tr>
-				<%
-				}
-				}
-				%>
-			</tbody>
-		</table>
-	</div>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Image</th>
+                    <th>Cart</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<!-- //Cach 1: JSP Scriptlet de hien listProducts
+				//Cach 2: Su dung taglib JSTL de hien listProducts -->
+                <!-- Product rows will be dynamically loaded here -->
+                <c:forEach var="product" items="${listProducts}">
+                	<tr>
+                		<td>${product.code}</td>
+                		<td>${product.name}</td>
+                		<td>${product.price}</td>
+                		<td><img src="${product.imagePath}"></td>
+                		<td><a href="products?action=addCart?code=${product.code}}">Add to Cart</a></td>
+                		<td><a href="products?action=update?code=${product.code}}">Edit</a></td>
+                		<td><a href="products?action=delete?code=${product.code}}">Delete</a></td>
+                	</tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
