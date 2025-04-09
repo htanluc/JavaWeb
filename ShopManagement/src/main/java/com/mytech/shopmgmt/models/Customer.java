@@ -1,7 +1,6 @@
 package com.mytech.shopmgmt.models;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "Customers")

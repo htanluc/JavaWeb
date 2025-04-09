@@ -1,6 +1,7 @@
 package com.mytech.shopmgmt;
 
-import com.mytech.shopmgmt.dao.ProductDAO;
+
+import com.mytech.shopmgmt.dao.ProductDao;
 import com.mytech.shopmgmt.dao.ProductJDBCDao;
 import com.mytech.shopmgmt.helpers.ServletHelper;
 import com.mytech.shopmgmt.models.Product;
@@ -22,12 +23,12 @@ import java.nio.file.Paths;
                  maxRequestSize = 1024 * 1024 * 50)    // 50MB
 public class EditProductServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private ProductDAO productDao;
+    private ProductDao productDao;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        productDao = new ProductDAO();
+        productDao = new ProductDao();
     }
 
     // Hiển thị form chỉnh sửa (GET)
@@ -94,7 +95,7 @@ public class EditProductServlet extends HttpServlet {
         Product product = new Product(code, name, price, imagePath);
 
         // Gọi DAO cập nhật
-        boolean success = productDao.updateProduct(product);
+        boolean success = productDao.updateProductByCode(product);
         if (success) {
             // Cập nhật thành công, quay về trang danh sách sản phẩm
             response.sendRedirect("products");

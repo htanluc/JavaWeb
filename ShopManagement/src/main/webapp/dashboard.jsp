@@ -55,7 +55,7 @@
             </a>
             <div class="ms-auto">
                 <span class="text-white me-3">
-                    Welcome, ${sessionScope.username} (Last login: ${sessionScope.loginDate})
+                    Welcome, ${username} (Last login: ${loginDate})
                 </span>
                 <form action="logout" method="post" class="d-inline">
                     <button type="submit" class="btn btn-logout">Logout</button>
@@ -66,8 +66,8 @@
 
     <div class="dashboard-content">
         <h2>Welcome to Shop Management</h2>
-        <p>This is your dashboard, ${sessionScope.username}. You can manage your shop here.</p>
-        <p>Last login: ${sessionScope.loginDate}</p>
+        <p>This is your dashboard, ${username}. You can manage your shop here.</p>
+        <p>Last login: ${loginDate}</p>
         <div class="row mt-4">
             <div class="col-md-6">
                 <div class="card">
